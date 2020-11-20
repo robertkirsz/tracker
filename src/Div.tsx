@@ -1,11 +1,20 @@
-// @ts-nocheck
+// @ts-nocheckxx
 import styled, { css } from 'styled-components'
 
-function withUnit(value: number | string) {
+type DuoType = number | string
+type TrioType = DuoType | boolean
+
+function withUnit(value: DuoType) {
   return typeof value === 'number' ? value + 'px' : value
 }
 
 const layerStyles = 'position: absolute; top: 0; right: 0; bottom: 0; left: 0;'
+
+const createList = (cb: (v: string) => {}) => (value: TrioType) => {
+  if (value === false) return ''
+  const _value = typeof value === 'boolean' ? '8px' : withUnit(value)
+  return cb(_value)
+}
 
 const stuff = {
   // flex-direction
@@ -35,7 +44,7 @@ const stuff = {
   contentAround: 'align-content: space-around;',
   contentStretch: 'align-content: stretch;',
   // Self-positioning
-  flex: value => `flex: ${value};`,
+  flex: (value: DuoType) => `flex: ${value};`,
   flexNone: 'flex: none;',
   selfAuto: 'align-self: auto;',
   selfStart: 'align-self: flex-start;',
@@ -44,79 +53,80 @@ const stuff = {
   selfBaseline: 'align-self: baseline;',
   selfStretch: 'align-self: stretch;',
   // Size
-  width: value => `width: ${withUnit(value)};` /* Tested */,
-  height: value => `height: ${withUnit(value)};` /* Tested */,
-  minWidth: value => `min-width: ${withUnit(value)};` /* Tested */,
-  minHeight: value => `min-height: ${withUnit(value)};` /* Tested */,
-  maxWidth: value => `max-width: ${withUnit(value)};` /* Tested */,
-  maxHeight: value => `max-height: ${withUnit(value)};` /* Tested */,
+  width: (value: DuoType) => `width: ${withUnit(value)};` /* Tested */,
+  height: (value: DuoType) => `height: ${withUnit(value)};` /* Tested */,
+  minWidth: (value: DuoType) => `min-width: ${withUnit(value)};` /* Tested */,
+  minHeight: (value: DuoType) => `min-height: ${withUnit(value)};` /* Tested */,
+  maxWidth: (value: DuoType) => `max-width: ${withUnit(value)};` /* Tested */,
+  maxHeight: (value: DuoType) => `max-height: ${withUnit(value)};` /* Tested */,
   // Margin
-  margin: value => `margin: ${withUnit(value)};` /* Tested */,
-  marginTop: value => `margin-top: ${withUnit(value)};` /* Tested */,
-  marginRight: value => `margin-right: ${withUnit(value)};` /* Tested */,
-  marginBottom: value => `margin-bottom: ${withUnit(value)};` /* Tested */,
-  marginLeft: value => `margin-left: ${withUnit(value)};` /* Tested */,
-  mTop: value => `margin-top: ${withUnit(value)};`,
-  mRight: value => `margin-right: ${withUnit(value)};`,
-  mBottom: value => `margin-bottom: ${withUnit(value)};`,
-  mLeft: value => `margin-left: ${withUnit(value)};`,
+  margin: (value: DuoType) => `margin: ${withUnit(value)};` /* Tested */,
+  marginTop: (value: DuoType) => `margin-top: ${withUnit(value)};` /* Tested */,
+  marginRight: (value: DuoType) => `margin-right: ${withUnit(value)};` /* Tested */,
+  marginBottom: (value: DuoType) => `margin-bottom: ${withUnit(value)};` /* Tested */,
+  marginLeft: (value: DuoType) => `margin-left: ${withUnit(value)};` /* Tested */,
+  mTop: (value: DuoType) => `margin-top: ${withUnit(value)};`,
+  mRight: (value: DuoType) => `margin-right: ${withUnit(value)};`,
+  mBottom: (value: DuoType) => `margin-bottom: ${withUnit(value)};`,
+  mLeft: (value: DuoType) => `margin-left: ${withUnit(value)};`,
   // Padding
-  padding: value => `padding: ${withUnit(value)};` /* Tested */,
-  paddingTop: value => `padding-top: ${withUnit(value)};` /* Tested */,
-  paddingRight: value => `padding-right: ${withUnit(value)};` /* Tested */,
-  paddingBottom: value => `padding-bottom: ${withUnit(value)};` /* Tested */,
-  paddingLeft: value => `padding-left: ${withUnit(value)};` /* Tested */,
-  pTop: value => `padding-top: ${withUnit(value)};`,
-  pRight: value => `padding-right: ${withUnit(value)};`,
-  pBottom: value => `padding-bottom: ${withUnit(value)};`,
-  pLeft: value => `padding-left: ${withUnit(value)};`,
+  padding: (value: DuoType) => `padding: ${withUnit(value)};` /* Tested */,
+  paddingTop: (value: DuoType) => `padding-top: ${withUnit(value)};` /* Tested */,
+  paddingRight: (value: DuoType) => `padding-right: ${withUnit(value)};` /* Tested */,
+  paddingBottom: (value: DuoType) => `padding-bottom: ${withUnit(value)};` /* Tested */,
+  paddingLeft: (value: DuoType) => `padding-left: ${withUnit(value)};` /* Tested */,
+  pTop: (value: DuoType) => `padding-top: ${withUnit(value)};`,
+  pRight: (value: DuoType) => `padding-right: ${withUnit(value)};`,
+  pBottom: (value: DuoType) => `padding-bottom: ${withUnit(value)};`,
+  pLeft: (value: DuoType) => `padding-left: ${withUnit(value)};`,
   // Background
-  background: value => `background: ${value};`,
-  backgroundImage: value => `background-image: url(${value});`,
+  background: (value: string) => `background: ${value};`,
+  backgroundImage: (value: string) => `background-image: url(${value});`,
   cover: 'background-size: cover;',
   contain: 'background-size: contain;',
   // Border
-  border: value => `border: ${value};` /* Tested */,
-  radius: value => `border-radius: ${withUnit(value)};` /* Tested */,
+  border: (value: string) => `border: ${value};` /* Tested */,
+  radius: (value: DuoType) => `border-radius: ${withUnit(value)};` /* Tested */,
   // Position
   relative: 'position: relative;',
   absolute: 'position: absolute;',
   fixed: 'position: fixed;',
   sticky: 'position: sticky;',
-  top: value => `top: ${withUnit(value)};`,
-  right: value => `right: ${withUnit(value)};`,
-  bottom: value => `bottom: ${withUnit(value)};`,
-  left: value => `left: ${withUnit(value)};`,
-  z: value => `z-index: ${value};`,
+  top: (value: DuoType) => `top: ${withUnit(value)};`,
+  right: (value: DuoType) => `right: ${withUnit(value)};`,
+  bottom: (value: DuoType) => `bottom: ${withUnit(value)};`,
+  left: (value: DuoType) => `left: ${withUnit(value)};`,
+  z: (value: DuoType) => `z-index: ${value};`,
   // Text
-  font: value => `font: ${value};` /* Tested */,
-  fontFamily: value => `font-family: ${value};` /* Tested */,
-  fontSize: value => `font-size: ${withUnit(value)};` /* Tested */,
-  fontWeight: value => `font-weight: ${value};` /* Tested */,
-  lineHeight: value => `line-height: ${value};` /* Tested */,
-  letterSpacing: value => `letter-spacing: ${withUnit(value)};` /* Tested */,
-  textAlign: value => `text-align: ${value};` /* Tested */,
-  color: value => `color: ${value};` /* Tested */,
+  font: (value: string) => `font: ${value};` /* Tested */,
+  fontFamily: (value: string) => `font-family: ${value};` /* Tested */,
+  fontSize: (value: DuoType) => `font-size: ${withUnit(value)};` /* Tested */,
+  fontWeight: (value: DuoType) => `font-weight: ${value};` /* Tested */,
+  lineHeight: (value: DuoType) => `line-height: ${value};` /* Tested */,
+  letterSpacing: (value: DuoType) => `letter-spacing: ${withUnit(value)};` /* Tested */,
+  textAlign: (value: string) => `text-align: ${value};` /* Tested */,
+  color: (value: string) => `color: ${value};` /* Tested */,
   // Lists
-  listLeft: value => `> *:not(:first-child) { margin-left: ${withUnit(value === true ? 8 : value)}; }`,
-  listRight: value => `> *:not(:last-child) { margin-right: ${withUnit(value === true ? 8 : value)}; }`,
-  listTop: value => `> *:not(:first-child) { margin-top: ${withUnit(value === true ? 8 : value)}; }`,
-  listBottom: value => `> *:not(:last-child) { margin-bottom: ${withUnit(value === true ? 8 : value)}; }`,
-  columnTop: value =>
-    `flex-direction: column; > *:not(:first-child) { margin-top: ${withUnit(value === true ? 8 : value)}; }`,
-  columnBottom: value =>
-    `flex-direction: column; > *:not(:last-child) { margin-bottom: ${withUnit(value === true ? 8 : value)}; }`,
+  listLeft: createList((value: string) => `> *:not(:first-child) { margin-left: ${value}; }`),
+  listRight: createList((value: string) => `> *:not(:first-child) { margin-right: ${value}; }`),
+  listTop: createList((value: string) => `> *:not(:first-child) { margin-top: ${value}; }`),
+  listBottom: createList((value: string) => `> *:not(:first-child) { margin-bottom: ${value}; }`),
+  columnTop: createList((value: string) => `flex-direction: column; > *:not(:first-child) { margin-top: ${value}; }`),
+  columnBottom: createList(
+    (value: string) => `flex-direction: column; > *:not(:first-child) { margin-bottom: ${value}; }`
+  ),
   // Other
-  overflow: value => `overflow: ${value};` /* Tested */,
+  overflow: (value: string) => `overflow: ${value};` /* Tested */,
   // Helpers
   layer: layerStyles,
-  square: value => value !== '' && `width: ${withUnit(value)}; height: ${withUnit(value)};`,
+  square: (value: DuoType) => value !== '' && `width: ${withUnit(value)}; height: ${withUnit(value)};`,
   fullHeight: 'min-height: 100vh;',
   hide: 'display: none;',
   circle: 'border-radius: 50%;',
   clickable: 'cursor: pointer;',
   noPointerEvents: 'pointer-events: none;',
-  overlay: (value = 'red', props) => `
+  // TODO: Check if this props.absolute check works
+  overlay: (value = 'red', props: any) => `
   position: ${(props.absolute && 'absolute') || 'relative'};
   &::after {
     content: "";
@@ -132,26 +142,34 @@ function camelToKebab(value: string) {
   return value.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase()
 }
 
+// @ts-ignore
 function memoize(func) {
   const cache = {}
 
+  // @ts-ignore
   return (...args) => {
     const item = args[0]
 
     if (item in cache) {
+      // @ts-ignore
       return cache[item]
     } else {
       const result = func(item)
+      // @ts-ignore
       cache[item] = result
       return result
     }
   }
 }
 
+// @ts-ignore
 const isDivProp = memoize(item => Object.keys(stuff).includes(item))
 
+// @ts-ignore
 function createCss(props) {
+  // @ts-ignore
   return (previous, current) => {
+    // @ts-ignore
     const stuffValue = stuff[current]
     const propValue = props[current]
     if (typeof stuffValue === 'string' && propValue) return `${previous}${stuffValue}`
@@ -160,17 +178,19 @@ function createCss(props) {
   }
 }
 
-function doStuff(props) {
+function doStuff(props: any) {
   return Object.keys(props).filter(isDivProp).reduce(createCss(props), '')
 }
 
 function doMediaQueriesStuff(props = {}) {
+  // @ts-ignore
   const { styledKitMediaQueries = {} } = props.theme || {}
   const queryNames = Object.keys(styledKitMediaQueries)
 
   if (!queryNames.length) return
 
   const queryNameToValuesMap = queryNames.reduce((all, query) => {
+    // @ts-ignore
     const declaration = props[query]
 
     if (!declaration) return all
@@ -181,6 +201,7 @@ function doMediaQueriesStuff(props = {}) {
       return {
         ...all,
         [query]: declaration.reduce((all, property) => {
+          // @ts-ignore
           const stuffProperty = stuff[property]
           if (typeof stuffProperty !== 'string') return all
           return `${all}${stuffProperty}`
@@ -192,6 +213,7 @@ function doMediaQueriesStuff(props = {}) {
       ...all,
       [query]: Object.keys(declaration).reduce((all, property) => {
         const value = declaration[property]
+        // @ts-ignore
         const stuffProperty = stuff[property]
         if (value === false) return all
         if (!stuffProperty) return `${all}${camelToKebab(property)}:${value};`
@@ -203,8 +225,10 @@ function doMediaQueriesStuff(props = {}) {
   // prettier-ignore
   return queryNames.reduce(
     (all, query) =>
+      // @ts-ignore
       !queryNameToValuesMap[query]
         ? all
+        // @ts-ignore
         : css`${all} ${styledKitMediaQueries[query]`${queryNameToValuesMap[query]}`}`, ''
   )
 }
