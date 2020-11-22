@@ -40,6 +40,7 @@ export default function App({ getData = getDataFromLocalStorage }) {
           <Timeline key={id} data={data} onDayClick={handleDayClick} />
         ))}
       </Div>
+
       <Version />
     </>
   )
