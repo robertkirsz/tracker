@@ -4,6 +4,7 @@ import { getDataFromLocalStorage, saveDataToLocalStorage } from './database'
 import type { Data } from './database'
 
 import Div from './Div'
+import Version from './Version'
 import Timeline from './Timeline'
 
 export default function App({ getData = getDataFromLocalStorage }) {
@@ -33,10 +34,13 @@ export default function App({ getData = getDataFromLocalStorage }) {
   }
 
   return (
-    <Div columnTop>
-      {Object.entries(database).map(([id, data]) => (
-        <Timeline key={id} data={data} onDayClick={handleDayClick} />
-      ))}
-    </Div>
+    <>
+      <Div columnTop>
+        {Object.entries(database).map(([id, data]) => (
+          <Timeline key={id} data={data} onDayClick={handleDayClick} />
+        ))}
+      </Div>
+      <Version />
+    </>
   )
 }
