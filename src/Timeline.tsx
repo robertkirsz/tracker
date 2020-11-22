@@ -1,20 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import type { DataItem } from './database'
+
 import Div from './Div'
+import Emoji from './Emoji'
 
 function difference(first: Date, second: Date) {
   return Math.ceil((first.valueOf() - second.valueOf()) / 1000 / 60 / 60 / 24)
 }
 
 type Props = {
-  start: Date
-  name?: string
-  emoji?: string
+  data: DataItem
+  onDayClick: Function
 }
 
-export default function Timeline({ start, name, emoji }: Props) {
+export default function Timeline({ data: { id, name, emoji, dates }, onDayClick }: Props) {
   const now = new Date()
+  const start = new Date(Object.keys(dates)[0])
   const numberOfDays = difference(now, start)
 
   return (
@@ -26,12 +29,17 @@ export default function Timeline({ start, name, emoji }: Props) {
 
       <Div listLeft={2} overflow="auto">
         {[...Array(numberOfDays)].map((_, index) => {
-          const date = new Date(start)
-          const dayNumber = new Date(date.setDate(start.getDate() + index))
+          const startDate = new Date(start)
+          const currentDate = new Date(startDate.setDate(start.getDate() + index))
+          const dateString = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`
+
+          const isActive = dates[dateString] === true
+          const handleClick = () => onDayClick(id, currentDate, !isActive)
+
           return (
-            <Day key={index}>
-              <span>{dayNumber.getDate()}</span>
-              <span style={{ fontSize: 6 }}>{dayNumber.toLocaleDateString()}</span>
+            <Day key={index} onClick={handleClick}>
+              <span style={{ fontSize: 6 }}>{currentDate.toLocaleDateString()}</span>
+              {isActive && <Emoji>{emoji}</Emoji>}
             </Day>
           )
         })}
