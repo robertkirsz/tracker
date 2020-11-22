@@ -1,11 +1,8 @@
 export interface DataItem {
   id: string
   name?: string
-  emoji?: string
-  type?: string
-  dates: {
-    [date: string]: boolean
-  }
+  emoji: string
+  dates: { [date: string]: boolean }
 }
 
 export interface Data {

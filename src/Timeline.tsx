@@ -1,10 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
 
 import type { DataItem } from './database'
 
 import Div from './Div'
-import Emoji from './Emoji'
+import Day from './Day'
 
 function difference(first: Date, second: Date) {
   return Math.ceil((first.valueOf() - second.valueOf()) / 1000 / 60 / 60 / 24)
@@ -18,8 +17,8 @@ type Props = {
 export default function Timeline({ data: { id, name, emoji, dates }, onDayClick }: Props) {
   const firstDateString = Object.keys(dates)[0]
   const now = new Date()
-  const start = firstDateString ? new Date(firstDateString) : new Date()
-  const numberOfDays = difference(now, start) || 1
+  const firstDate = firstDateString ? new Date(firstDateString) : new Date()
+  const numberOfDays = difference(now, firstDate) || 1
 
   return (
     <Div columnTop>
@@ -29,32 +28,18 @@ export default function Timeline({ data: { id, name, emoji, dates }, onDayClick 
       </Div>
 
       <Div listLeft={2} overflow="auto">
-        {[...Array(numberOfDays)].map((_, index) => {
-          const startDate = new Date(start)
-          const currentDate = new Date(startDate.setDate(start.getDate() + index))
-          const dateString = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`
-
-          const isActive = dates[dateString] === true
-          const handleClick = () => onDayClick(id, currentDate, !isActive)
-
-          return (
-            <Day key={index} onClick={handleClick}>
-              <span style={{ fontSize: 6 }}>{currentDate.toLocaleDateString()}</span>
-              {isActive && <Emoji>{emoji}</Emoji>}
-            </Day>
-          )
-        })}
+        {[...Array(numberOfDays)].map((_, index) => (
+          <Day
+            key={index}
+            index={index}
+            id={id}
+            emoji={emoji}
+            dates={dates}
+            firstDate={firstDate}
+            onClick={onDayClick}
+          />
+        ))}
       </Div>
     </Div>
   )
 }
-
-const Day = styled.div`
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  width: 50px;
-  height: 50px;
-  border: 1px solid;
-  padding: 4px;
-`
