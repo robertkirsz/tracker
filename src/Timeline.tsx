@@ -18,7 +18,7 @@ export default function Timeline({ data: { id, name, emoji, dates }, onDayClick 
   const firstDateString = Object.keys(dates)[0]
   const now = new Date()
   const firstDate = firstDateString ? new Date(firstDateString) : new Date()
-  const numberOfDays = difference(now, firstDate) || 1
+  const numberOfDays = difference(now, firstDate) + 1
 
   return (
     <Div columnTop>
