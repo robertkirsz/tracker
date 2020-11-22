@@ -13,21 +13,23 @@ export interface Data {
 }
 
 export const getDataFromLocalStorage = (): Data => {
-  const data = localStorage.getItem('data')
-  return data ? JSON.parse(data) : getDefaultData()
+  const dataFromStorage = JSON.parse(localStorage.getItem('data') || '{}')
+  return { ...getDataTemplate(), ...dataFromStorage }
 }
 
 export const saveDataToLocalStorage = (data: Data) => localStorage.setItem('data', JSON.stringify(data))
 
-export const getDefaultData = (): Data => ({
+const getDataTemplate = (): Data => ({
   '🍺': {
     id: '🍺',
     name: undefined,
     emoji: '🍺',
-    dates: {
-      '2020-11-14': true,
-      '2020-11-18': true,
-      '2020-11-20': true,
-    },
+    dates: {},
+  },
+  '🍕': {
+    id: '🍕',
+    name: undefined,
+    emoji: '🍕',
+    dates: {},
   },
 })

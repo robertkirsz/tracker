@@ -16,9 +16,10 @@ type Props = {
 }
 
 export default function Timeline({ data: { id, name, emoji, dates }, onDayClick }: Props) {
+  const firstDateString = Object.keys(dates)[0]
   const now = new Date()
-  const start = new Date(Object.keys(dates)[0])
-  const numberOfDays = difference(now, start)
+  const start = firstDateString ? new Date(firstDateString) : new Date()
+  const numberOfDays = difference(now, start) || 1
 
   return (
     <Div columnTop>
