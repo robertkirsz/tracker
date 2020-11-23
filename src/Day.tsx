@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import dayjs from 'dayjs'
 
 import { sc } from './utils'
 
@@ -9,28 +10,35 @@ type Props = {
   index: number
   id: string
   emoji: string
-  firstDate: Date
+  firstDate: dayjs.Dayjs
   dates: { [date: string]: boolean }
   onClick: Function
 }
 
 export default function Day({ index, id, emoji, firstDate, dates, onClick, ...props }: Props) {
-  const startDate = new Date(firstDate)
-  const currentDate = new Date(startDate.setDate(firstDate.getDate() + index))
-  const dateString = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`
-  const isActive = dates[dateString] === true
-  const isWeekend = [0, 6].includes(currentDate.getDay())
+  const today = dayjs()
+  const currentDate = dayjs(firstDate).add(index, 'day')
+  const isActive = dates[currentDate.format('YYYY-MM-DD')] === true
+  const isToday = today.isSame(currentDate, 'day')
+  const isFuture = currentDate.isAfter(today)
+  const isWeekend = [0, 6].includes(currentDate.day())
   const handleClick = () => onClick(id, currentDate, !isActive)
 
   return (
-    <Wrapper onClick={handleClick} isWeekend={isWeekend} {...props}>
-      <span style={{ fontSize: 6 }}>{currentDate.toLocaleDateString()}</span>
+    <Wrapper onClick={handleClick} isToday={isToday} isFuture={isFuture} isWeekend={isWeekend} {...props}>
+      <span style={{ fontSize: 6 }}>{currentDate.format('DD-MM-YYYY')}</span>
       {isActive && <Emoji>{emoji}</Emoji>}
     </Wrapper>
   )
 }
 
-const Wrapper = styled.div<{ isWeekend: boolean }>`
+type WrapperProps = {
+  isToday: boolean
+  isWeekend: boolean
+  isFuture: boolean
+}
+
+const Wrapper = styled.div<WrapperProps>`
   flex: none;
   display: flex;
   flex-direction: column;
@@ -41,5 +49,13 @@ const Wrapper = styled.div<{ isWeekend: boolean }>`
 
   border: 1px solid;
 
+  ${sc('isToday')`border-width: 3px;`}
+
   ${sc('isWeekend')`background: rgba(255, 255, 255, 0.1);`}
+  
+  ${sc('isFuture')`
+    opacity: 0.5;
+    pointer-events: none;
+    transform: scale(0.7);
+  `}
 `
