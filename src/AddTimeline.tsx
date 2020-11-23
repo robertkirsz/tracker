@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react'
+import React, { useState } from 'react'
 
 import type { Data } from './database'
 
@@ -14,36 +14,47 @@ export default function AddTimeline({ database, onSubmit }: Props) {
   const [timelineEmoji, setTimelineEmoji] = useState('')
   const [error, setError] = useState('')
 
-  function addTimeline(event: FormEvent<HTMLFormElement>) {
+  function toggleView() {
+    setShowInput(state => !state)
+  }
+
+  function changeTimelineEmoji(event: React.ChangeEvent<HTMLInputElement>) {
+    setTimelineEmoji(event.target.value)
+  }
+
+  function addTimeline(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+
+    if (timelineEmoji === '') return
 
     const timelineEmojiAlreadyExists = Object.keys(database).includes(timelineEmoji)
 
     if (timelineEmojiAlreadyExists) {
       setError('This timeline already exists')
-    } else {
-      setShowInput(false)
-      setTimelineEmoji('')
-      setError('')
-      onSubmit({
-        [timelineEmoji]: {
-          id: timelineEmoji,
-          emoji: timelineEmoji,
-          dates: {},
-        },
-      })
+      return
     }
+
+    setShowInput(false)
+    setTimelineEmoji('')
+    setError('')
+    onSubmit({
+      [timelineEmoji]: {
+        id: timelineEmoji,
+        emoji: timelineEmoji,
+        dates: {},
+      },
+    })
   }
 
   return (
     <Div columnTop selfCenter>
-      {!showInput && <button onClick={() => setShowInput(true)}>+</button>}
+      {!showInput && <button onClick={toggleView}>+</button>}
 
       {showInput && (
         <Div as="form" listLeft onSubmit={addTimeline}>
-          <input value={timelineEmoji} onChange={event => setTimelineEmoji(event.target.value)} />
+          <input value={timelineEmoji} onChange={changeTimelineEmoji} />
           <button>OK</button>
-          <button type="button" onClick={() => setShowInput(false)}>
+          <button type="button" onClick={toggleView}>
             Cancel
           </button>
         </Div>
