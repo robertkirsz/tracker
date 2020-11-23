@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 
 import { getDataFromLocalStorage, saveDataToLocalStorage } from './database'
-import type { Data, DataItem } from './database'
+import type { Data } from './database'
 
 import Div from './Div'
 import Version from './Version'
 import Timeline from './Timeline'
 import AddTimeline from './AddTimeline'
+import DataPreview from './DataPreview'
 
 export default function App({ getData = getDataFromLocalStorage }) {
   const [database, setDatabase] = useState(getData)
@@ -49,7 +50,7 @@ export default function App({ getData = getDataFromLocalStorage }) {
 
   return (
     <>
-      <Div columnTop>
+      <Div flex={1} columnTop>
         {Object.entries(database).map(([id, data]) => (
           <Timeline key={id} data={data} onDayClick={handleDayClick} />
         ))}
@@ -57,7 +58,10 @@ export default function App({ getData = getDataFromLocalStorage }) {
         <AddTimeline database={database} onSubmit={addNewTimeline} />
       </Div>
 
-      <Version />
+      <Div as="footer" itemsEnd justifyBetween flexNone>
+        <Version />
+        <DataPreview database={database} />
+      </Div>
     </>
   )
 }
