@@ -8,13 +8,12 @@ import Version from './Version'
 import Timeline from './Timeline'
 import AddTimeline from './AddTimeline'
 import DataPreview from './DataPreview'
+import type dayjs from 'dayjs'
 
 export default function App({ getData = getDataFromLocalStorage }) {
   const [database, setDatabase] = useState(getData)
 
-  function handleDayClick(id: string, date: Date, newDateState: boolean) {
-    const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-
+  function handleDayClick(id: string, date: dayjs.Dayjs, newDateState: boolean) {
     setDatabase((state: Data) => {
       const newState = {
         ...state,
@@ -24,7 +23,7 @@ export default function App({ getData = getDataFromLocalStorage }) {
           dates: {
             // @ts-ignore
             ...state[id].dates,
-            [dateString]: newDateState,
+            [date.format('YYYY-MM-DD')]: newDateState,
           },
         },
       }
@@ -48,11 +47,22 @@ export default function App({ getData = getDataFromLocalStorage }) {
     })
   }
 
+  function deleteTimeline(timelineId: string) {
+    setDatabase((state: Data) => {
+      const newState = { ...state }
+      delete newState[timelineId]
+
+      saveDataToLocalStorage(newState)
+
+      return newState
+    })
+  }
+
   return (
     <>
-      <Div flex={1} columnTop>
+      <Div flex={1} columnTop overflow="auto">
         {Object.entries(database).map(([id, data]) => (
-          <Timeline key={id} data={data} onDayClick={handleDayClick} />
+          <Timeline key={id} data={data} onDayClick={handleDayClick} onDeleteTimeline={deleteTimeline} />
         ))}
 
         <AddTimeline database={database} onSubmit={addNewTimeline} />
