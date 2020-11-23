@@ -5,7 +5,7 @@ import type { DataItem } from './database'
 import Div from './Div'
 import Day from './Day'
 
-function difference(first: Date, second: Date) {
+function differenceInDays(first: Date, second: Date) {
   return Math.ceil((first.valueOf() - second.valueOf()) / 1000 / 60 / 60 / 24)
 }
 
@@ -18,7 +18,8 @@ export default function Timeline({ data: { id, name, emoji, dates }, onDayClick 
   const firstDateString = Object.keys(dates)[0]
   const now = new Date()
   const firstDate = firstDateString ? new Date(firstDateString) : new Date()
-  const numberOfDays = difference(now, firstDate) + 1
+  // TODO: fix problems with timezones (wrong number at midnight)
+  const numberOfDays = differenceInDays(now, firstDate) || 1
 
   return (
     <Div columnTop>
