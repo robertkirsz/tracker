@@ -1,58 +1,62 @@
 import React, { useState } from 'react'
 
-import { getDataFromLocalStorage, saveDataToLocalStorage } from './database'
-import type { Data } from './database'
+import { getDatabaseFromLocalStorage, saveDatabaseToLocalStorage } from './database'
+import type { DatabaseInterface, TimelineInterface } from './database'
 
 import Div from './Div'
 import Version from './Version'
 import Timeline from './Timeline'
 import AddTimeline from './AddTimeline'
-import DataPreview from './DataPreview'
+import DatabasePreview from './DatabasePreview'
 import type dayjs from 'dayjs'
 
-export default function App({ getData = getDataFromLocalStorage }) {
-  const [database, setDatabase] = useState(getData)
+export default function App({ getDatabase = getDatabaseFromLocalStorage }) {
+  const [database, setDatabase] = useState<DatabaseInterface>(getDatabase)
 
   function handleDayClick(id: string, date: dayjs.Dayjs, newDateState: boolean) {
-    setDatabase((state: Data) => {
+    setDatabase(state => {
       const newState = {
         ...state,
-        [id]: {
-          // @ts-ignore
-          ...state[id],
-          dates: {
-            // @ts-ignore
-            ...state[id].dates,
-            [date.format('YYYY-MM-DD')]: newDateState,
-          },
-        },
+        timelines: state.timelines.map(timeline =>
+          timeline.id === id
+            ? {
+                ...timeline,
+                dates: {
+                  ...timeline.dates,
+                  [date.format('YYYY-MM-DD')]: newDateState,
+                },
+              }
+            : timeline
+        ),
       }
 
-      saveDataToLocalStorage(newState)
+      saveDatabaseToLocalStorage(newState)
 
       return newState
     })
   }
 
-  function addNewTimeline(timeline: Data) {
-    setDatabase((state: Data) => {
+  function addNewTimeline(timeline: TimelineInterface) {
+    setDatabase(state => {
       const newState = {
         ...state,
-        ...timeline,
+        timelines: [...state.timelines, timeline],
       }
 
-      saveDataToLocalStorage(newState)
+      saveDatabaseToLocalStorage(newState)
 
       return newState
     })
   }
 
   function deleteTimeline(timelineId: string) {
-    setDatabase((state: Data) => {
-      const newState = { ...state }
-      delete newState[timelineId]
+    setDatabase(state => {
+      const newState = {
+        ...state,
+        timelines: state.timelines.filter(timeline => timeline.id !== timelineId),
+      }
 
-      saveDataToLocalStorage(newState)
+      saveDatabaseToLocalStorage(newState)
 
       return newState
     })
@@ -61,16 +65,24 @@ export default function App({ getData = getDataFromLocalStorage }) {
   return (
     <>
       <Div flex={1} columnTop overflow="auto">
-        {Object.entries(database).map(([id, data]) => (
-          <Timeline key={id} data={data} onDayClick={handleDayClick} onDeleteTimeline={deleteTimeline} />
+        {database.timelines.map(timeline => (
+          <Timeline
+            key={timeline.id}
+            id={timeline.id}
+            description={timeline.description}
+            emoji={timeline.emoji}
+            dates={timeline.dates}
+            onDayClick={handleDayClick}
+            onDeleteTimeline={deleteTimeline}
+          />
         ))}
-
-        <AddTimeline database={database} onSubmit={addNewTimeline} />
       </Div>
+
+      <AddTimeline onAddNewTimeline={addNewTimeline} />
 
       <Div as="footer" itemsEnd justifyBetween flexNone>
         <Version />
-        <DataPreview database={database} />
+        <DatabasePreview database={database} />
       </Div>
     </>
   )

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 // import { version } from '../package.json'
-const version = '1.0.3'
+const version = '1.1.0'
 
 export default styled.div`
   font-size: 8px;

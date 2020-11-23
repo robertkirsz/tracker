@@ -1,21 +1,29 @@
 import React, { useState } from 'react'
+import { v4 as uuid } from 'uuid'
 
-import type { Data } from './database'
-
-import Div from './Div'
+import Modal from './Modal'
 
 type Props = {
-  database: Data
-  onSubmit: Function
+  onAddNewTimeline: Function
 }
 
-export default function AddTimeline({ database, onSubmit }: Props) {
-  const [showInput, setShowInput] = useState(false)
+export default function AddTimeline({ onAddNewTimeline }: Props) {
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [timelineDescription, setTimelineDescription] = useState('')
   const [timelineEmoji, setTimelineEmoji] = useState('')
-  const [error, setError] = useState('')
 
-  function toggleView() {
-    setShowInput(state => !state)
+  function openModal() {
+    setIsModalVisible(true)
+  }
+
+  function closeModal() {
+    setTimelineDescription('')
+    setTimelineEmoji('')
+    setIsModalVisible(false)
+  }
+
+  function changeTimelineDescription(event: React.ChangeEvent<HTMLInputElement>) {
+    setTimelineDescription(event.target.value)
   }
 
   function changeTimelineEmoji(event: React.ChangeEvent<HTMLInputElement>) {
@@ -25,42 +33,35 @@ export default function AddTimeline({ database, onSubmit }: Props) {
   function addTimeline(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    if (timelineEmoji === '') return
+    if (!timelineDescription && !timelineEmoji) return
 
-    const timelineEmojiAlreadyExists = Object.keys(database).includes(timelineEmoji)
-
-    if (timelineEmojiAlreadyExists) {
-      setError('This timeline already exists')
-      return
-    }
-
-    setShowInput(false)
-    setTimelineEmoji('')
-    setError('')
-    onSubmit({
-      [timelineEmoji]: {
-        id: timelineEmoji,
-        emoji: timelineEmoji,
-        dates: {},
-      },
+    onAddNewTimeline({
+      id: uuid(),
+      description: timelineDescription,
+      emoji: timelineEmoji,
+      dates: {},
     })
+
+    closeModal()
   }
 
   return (
-    <Div columnTop selfCenter>
-      {!showInput && <button onClick={toggleView}>+</button>}
+    <>
+      <button style={{ alignSelf: 'center' }} onClick={openModal}>
+        +
+      </button>
 
-      {showInput && (
-        <Div as="form" listLeft onSubmit={addTimeline}>
-          <input value={timelineEmoji} onChange={changeTimelineEmoji} />
+      {isModalVisible && (
+        // @ts-ignore
+        <Modal as="form" onSubmit={addTimeline} columnTop itemsCenter onClose={closeModal}>
+          <input placeholder="Emoji" value={timelineEmoji} onChange={changeTimelineEmoji} />
+          <input placeholder="Description" value={timelineDescription} onChange={changeTimelineDescription} />
           <button>OK</button>
-          <button type="button" onClick={toggleView}>
+          <button type="button" onClick={closeModal}>
             Cancel
           </button>
-        </Div>
+        </Modal>
       )}
-
-      {error && <span>{error}</span>}
-    </Div>
+    </>
   )
 }

@@ -1,32 +1,20 @@
-export interface DataItem {
+export interface DatabaseInterface {
+  timelines: TimelineInterface[]
+}
+
+export interface TimelineInterface {
   id: string
-  name?: string
+  description: string
   emoji: string
   dates: { [date: string]: boolean }
 }
 
-export interface Data {
-  [id: string]: DataItem
+const emptyDatabase = {
+  timelines: [],
 }
 
-export const getDataFromLocalStorage = (): Data => {
-  const dataFromStorage = JSON.parse(localStorage.getItem('data') || '{}')
-  return { ...getDataTemplate(), ...dataFromStorage }
-}
+export const getDatabaseFromLocalStorage = (): DatabaseInterface =>
+  JSON.parse(localStorage.getItem('database') || JSON.stringify(emptyDatabase))
 
-export const saveDataToLocalStorage = (data: Data) => localStorage.setItem('data', JSON.stringify(data))
-
-const getDataTemplate = (): Data => ({
-  '🍺': {
-    id: '🍺',
-    name: undefined,
-    emoji: '🍺',
-    dates: {},
-  },
-  '🍕': {
-    id: '🍕',
-    name: undefined,
-    emoji: '🍕',
-    dates: {},
-  },
-})
+export const saveDatabaseToLocalStorage = (database: DatabaseInterface) =>
+  localStorage.setItem('database', JSON.stringify(database))

@@ -2,33 +2,34 @@ import * as React from 'react'
 import { render } from '@testing-library/react'
 import { expect } from 'chai'
 
-import type { Data } from './database'
+import type { DatabaseInterface } from './database'
 
 import App from './App'
 
-const getData = (): Data => ({
-  '🍺': {
-    id: '🍺',
-    name: undefined,
-    emoji: '🍺',
-    dates: {},
-  },
-  '🍔': {
-    id: '🍔',
-    name: undefined,
-    emoji: '🍔',
-    dates: {},
-  },
+const getDatabase = (): DatabaseInterface => ({
+  timelines: [
+    {
+      id: '0',
+      description: 'Drank beer',
+      emoji: '🍺',
+      dates: {},
+    },
+    {
+      id: '1',
+      description: 'Ate burger',
+      emoji: '🍔',
+      dates: {},
+    },
+  ],
 })
 
 describe('<App />', () => {
   it('Renders timelines', () => {
-    const { getByText } = render(<App getData={getData} />)
+    const { getByText } = render(<App getDatabase={getDatabase} />)
 
-    const beerEmoji = getByText('🍺')
-    const burgerEmoji = getByText('🍔')
-
-    expect(document.body.contains(beerEmoji))
-    expect(document.body.contains(burgerEmoji))
+    expect(document.body.contains(getByText('🍺')))
+    expect(document.body.contains(getByText('Drank beer')))
+    expect(document.body.contains(getByText('🍔')))
+    expect(document.body.contains(getByText('Ate burger')))
   })
 })

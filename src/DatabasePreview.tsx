@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import type { Data } from './database'
+import type { DatabaseInterface } from './database'
 
 import Modal from './Modal'
 
 type Props = {
-  database: Data
+  database: DatabaseInterface
 }
 
-export default function DataPreview({ database }: Props) {
+export default function DatabasePreview({ database }: Props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   function toggleModal() {
@@ -21,7 +21,7 @@ export default function DataPreview({ database }: Props) {
       <button onClick={toggleModal}>Show data</button>
 
       {isModalVisible && (
-        <Modal columnTop overflow="auto" onClose={setIsModalVisible}>
+        <Modal columnTop overflow="auto" onClose={toggleModal}>
           <Pre>{JSON.stringify(database, null, 2)}</Pre>
           <button onClick={toggleModal}>Close</button>
         </Modal>

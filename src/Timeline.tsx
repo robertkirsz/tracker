@@ -1,28 +1,26 @@
 import React from 'react'
 import dayjs from 'dayjs'
 
-import type { DataItem } from './database'
+import type { TimelineInterface } from './database'
 
 import Div from './Div'
 import Day from './Day'
 
-type Props = {
-  data: DataItem
+type Props = TimelineInterface & {
   onDayClick: Function
   onDeleteTimeline: Function
 }
 
-export default function Timeline({ data: { id, name, emoji, dates }, onDayClick, onDeleteTimeline }: Props) {
+export default function Timeline({ id, description, emoji, dates, onDayClick, onDeleteTimeline }: Props) {
   const firstDateString = Object.keys(dates)[0]
-  const firstDate = firstDateString ? dayjs(firstDateString) : dayjs()
-  // TODO: fix problems with timezones (wrong number at midnight)
-  const numberOfDays = dayjs().diff(firstDate) + 3
+  const firstDate = dayjs(firstDateString || new Date())
+  const numberOfDays = dayjs().diff(firstDate, 'day') + 4
 
   return (
     <Div columnTop>
       <Div listLeft>
         {emoji && <span>{emoji}</span>}
-        {name && <span>{name}</span>}
+        {description && <span>{description}</span>}
         <button onClick={() => onDeleteTimeline(id)}>Delete</button>
       </Div>
 
