@@ -233,7 +233,7 @@ function doMediaQueriesStuff(props = {}) {
   )
 }
 
-type DivProps = {
+export type DivProps = {
   // Display
   inline?: boolean
   // flex-direction
