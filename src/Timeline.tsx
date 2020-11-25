@@ -14,7 +14,7 @@ type Props = TimelineInterface & {
 export default function Timeline({ id, description, emoji, dates, onDayClick, onDeleteTimeline }: Props) {
   const firstDateString = Object.keys(dates)[0]
   const firstDate = dayjs(firstDateString || new Date())
-  const numberOfDays = dayjs().diff(firstDate, 'day') + 4
+  const numberOfDays = dayjs().diff(firstDate, 'day') + 1
 
   return (
     <Div columnTop>

@@ -6,7 +6,11 @@ export interface TimelineInterface {
   id: string
   description: string
   emoji: string
-  dates: { [date: string]: boolean }
+  dates: {
+    [date: string]: {
+      value: number
+    }
+  }
 }
 
 const emptyDatabase = {

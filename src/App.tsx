@@ -13,7 +13,7 @@ import type dayjs from 'dayjs'
 export default function App({ getDatabase = getDatabaseFromLocalStorage }) {
   const [database, setDatabase] = useState<DatabaseInterface>(getDatabase)
 
-  function handleDayClick(id: string, date: dayjs.Dayjs, newDateState: boolean) {
+  function handleDayClick(id: string, date: dayjs.Dayjs, newDateState: number) {
     setDatabase(state => {
       const newState = {
         ...state,
@@ -23,7 +23,10 @@ export default function App({ getDatabase = getDatabaseFromLocalStorage }) {
                 ...timeline,
                 dates: {
                   ...timeline.dates,
-                  [date.format('YYYY-MM-DD')]: newDateState,
+                  [date.format('YYYY-MM-DD')]: {
+                    ...timeline.dates[date.format('YYYY-MM-DD')],
+                    value: newDateState,
+                  },
                 },
               }
             : timeline

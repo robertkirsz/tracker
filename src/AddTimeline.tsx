@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
 
 import Modal from './Modal'
+import type { TimelineInterface } from './database'
 
 type Props = {
   onAddNewTimeline: Function
@@ -61,15 +62,16 @@ export default function AddTimeline({ onAddNewTimeline }: Props) {
       return
     }
 
-    onAddNewTimeline({
+    const newTimeline: TimelineInterface = {
       id: uuid(),
       description: timelineDescription,
       emoji: timelineEmoji,
       dates: {
-        [startDate]: false,
+        [startDate]: { value: 1 },
       },
-    })
+    }
 
+    onAddNewTimeline(newTimeline)
     closeModal()
   }
 

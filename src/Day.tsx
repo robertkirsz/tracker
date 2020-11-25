@@ -10,7 +10,11 @@ type Props = {
   index: number
   id: string
   emoji: string
-  dates: { [date: string]: boolean }
+  dates: {
+    [date: string]: {
+      value: number
+    }
+  }
   firstDate: dayjs.Dayjs
   onClick: Function
 }
@@ -18,17 +22,16 @@ type Props = {
 export default function Day({ index, id, emoji, firstDate, dates, onClick }: Props) {
   const today = dayjs()
   const currentDate = dayjs(firstDate).add(index, 'day')
-  const isActive = dates[currentDate.format('YYYY-MM-DD')] === true
+  const isActive = dates[currentDate.format('YYYY-MM-DD')]?.value >= 1
   const isToday = today.isSame(currentDate, 'day')
-  const isFuture = currentDate.isAfter(today)
   const isWeekend = [0, 6].includes(currentDate.day())
 
   function handleClick() {
-    onClick(id, currentDate, !isActive)
+    onClick(id, currentDate, isActive ? 0 : 1)
   }
 
   return (
-    <Wrapper isToday={isToday} isFuture={isFuture} isWeekend={isWeekend} onClick={handleClick}>
+    <Wrapper isToday={isToday} isWeekend={isWeekend} onClick={handleClick}>
       <span style={{ fontSize: 6 }}>{currentDate.format('DD-MM-YYYY')}</span>
       {isActive && <Emoji>{emoji}</Emoji>}
     </Wrapper>
@@ -38,7 +41,6 @@ export default function Day({ index, id, emoji, firstDate, dates, onClick }: Pro
 type WrapperProps = {
   isToday: boolean
   isWeekend: boolean
-  isFuture: boolean
 }
 
 const Wrapper = styled.div<WrapperProps>`
@@ -55,12 +57,5 @@ const Wrapper = styled.div<WrapperProps>`
   cursor: pointer;
 
   ${sc('isToday')`border-width: 3px;`}
-
   ${sc('isWeekend')`background: rgba(255, 255, 255, 0.1);`}
-  
-  ${sc('isFuture')`
-    opacity: 0.5;
-    pointer-events: none;
-    transform: scale(0.7);
-  `}
 `
