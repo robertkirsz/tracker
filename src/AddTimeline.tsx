@@ -67,7 +67,7 @@ export default function AddTimeline({ onAddNewTimeline }: Props) {
       description: timelineDescription,
       emoji: timelineEmoji,
       dates: {
-        [startDate]: { value: 1 },
+        [startDate]: { value: 0 },
       },
     }
 
