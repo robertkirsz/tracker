@@ -47,10 +47,15 @@ export default function Timeline({ id, description, emoji, dates, onDayClick, on
       </Div>
 
       {isDeleteTimelineModalVisible && (
-        <Modal columnTop itemsCenter onClose={() => setIsDeleteTimelineModalVisible(false)}>
+        <Modal
+          columnTop
+          itemsCenter
+          onClose={() => setIsDeleteTimelineModalVisible(false)}
+          data-testid="delete-timeline-modal"
+        >
           <span>Are you sure?</span>
-          <button onClick={() => onDeleteTimeline(id)}>Delete</button>
-          <button onClick={() => setIsDeleteTimelineModalVisible(false)}>Cancel</button>
+          <button onClick={() => onDeleteTimeline(id)}>Yes</button>
+          <button onClick={() => setIsDeleteTimelineModalVisible(false)}>No</button>
         </Modal>
       )}
     </>

@@ -77,13 +77,20 @@ export default function AddTimeline({ onAddNewTimeline }: Props) {
 
   return (
     <>
-      <button style={{ alignSelf: 'center' }} onClick={openModal}>
+      <button style={{ alignSelf: 'center' }} onClick={openModal} data-testid="add-timeline-button">
         +
       </button>
 
       {isModalVisible && (
-        // @ts-ignore
-        <Modal as="form" onSubmit={addTimeline} columnTop itemsCenter onClose={closeModal}>
+        <Modal
+          // @ts-ignore
+          as="form"
+          onSubmit={addTimeline}
+          columnTop
+          itemsCenter
+          onClose={closeModal}
+          data-testid="add-timeline-form"
+        >
           <input placeholder="Emoji" value={timelineEmoji} onChange={changeTimelineEmoji} />
           <input placeholder="Description" value={timelineDescription} onChange={changeTimelineDescription} />
           <input placeholder="Start date" value={startDate} onChange={changeStartDate} />

@@ -1,35 +1,51 @@
 {
-  "version": "1.0.0",
+  "name": "tracker",
+  "version": "1.2.0",
+  "private": true,
   "scripts": {
-    "start": "snowpack dev",
-    "build": "snowpack build",
-    "test": "web-test-runner \"src/**/*.test.tsx\"",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "serve": "serve -s build",
+    "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
-    "dayjs": "1.9.6",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "styled-components": "5.2.1",
-    "uuid": "8.3.1"
-  },
-  "devDependencies": {
-    "@snowpack/plugin-dotenv": "2.0.4",
-    "@snowpack/plugin-react-refresh": "2.3.7",
-    "@snowpack/plugin-typescript": "1.1.0",
-    "@snowpack/web-test-runner-plugin": "0.1.4",
+    "@testing-library/jest-dom": "5.11.6",
     "@testing-library/react": "11.2.2",
-    "@types/chai": "4.2.14",
+    "@testing-library/user-event": "12.2.2",
+    "@types/jest": "26.0.15",
+    "@types/node": "14.14.10",
     "@types/react": "17.0.0",
     "@types/react-dom": "17.0.0",
-    "@types/snowpack-env": "2.3.2",
     "@types/styled-components": "5.1.4",
     "@types/uuid": "8.3.0",
-    "@web/test-runner": "0.9.13",
-    "chai": "4.2.0",
-    "prettier": "2.2.0",
-    "snowpack": "2.17.1",
-    "typescript": "4.1.2"
+    "dayjs": "1.9.6",
+    "prettier": "2.2.1",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-scripts": "4.0.1",
+    "serve": "11.3.2",
+    "styled-components": "5.2.1",
+    "typescript": "4.1.2",
+    "uuid": "8.3.1",
+    "web-vitals": "0.2.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
