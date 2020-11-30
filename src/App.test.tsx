@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
+import MockDate from 'mockdate'
 
 import type { DatabaseInterface } from './database'
 
@@ -16,32 +17,41 @@ const getDatabase = (): DatabaseInterface => ({
   ],
 })
 
+beforeAll(() => {
+  MockDate.set('2020-06-10')
+})
+
 afterEach(() => {
   localStorage.removeItem('database')
 })
 
+afterAll(() => {
+  MockDate.reset()
+})
+
 describe('<App />', () => {
   test('Timeline can be added', () => {
-    const { getByTestId, getByText, getByPlaceholderText } = render(<App />)
+    const { getByText, getByPlaceholderText, getAllByTestId } = render(<App />)
 
-    fireEvent.click(getByTestId('add-timeline-button'))
+    fireEvent.click(getByText('+'))
+
+    expect(getByText('Add new timeline')).toBeVisible()
 
     fireEvent.change(getByPlaceholderText('Emoji'), { target: { value: '🍕' } })
     fireEvent.change(getByPlaceholderText('Description'), { target: { value: 'Ate pizza' } })
-    // TODO: mock date
-    fireEvent.change(getByPlaceholderText('Start date'), { target: { value: '2020-05-15' } })
+    fireEvent.change(getByPlaceholderText('Start date'), { target: { value: '2020-06-01' } })
 
-    fireEvent.submit(getByTestId('add-timeline-form'))
+    fireEvent.click(getByText('Add'))
 
     expect(getByText('🍕')).toBeVisible()
     expect(getByText('Ate pizza')).toBeVisible()
-    // TODO: check timeline length
+    expect(getAllByTestId('timeline-day')).toHaveLength(10)
   })
 
   test('Timeline can be edited', () => {})
 
   test('Timeline can be deleted', () => {
-    const { getByText } = render(<App getDatabase={getDatabase} />)
+    const { getByText, getByTestId } = render(<App getDatabase={getDatabase} />)
 
     const timelineEmoji = getByText('🍺')
     const timelineDescription = getByText('Drank beer')
@@ -49,6 +59,7 @@ describe('<App />', () => {
     expect(timelineEmoji).toBeInTheDocument()
     expect(timelineDescription).toBeInTheDocument()
 
+    fireEvent.click(getByTestId('timeline-menu-button'))
     fireEvent.click(getByText('Delete'))
     fireEvent.click(getByText('Yes'))
 

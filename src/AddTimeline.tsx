@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
 
-import Modal from './Modal'
 import type { TimelineInterface } from './database'
+
+import Modal from './Modal'
+import TimelineForm from './TimelineForm'
 
 type Props = {
   onAddNewTimeline: Function
@@ -11,61 +13,20 @@ type Props = {
 
 export default function AddTimeline({ onAddNewTimeline }: Props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [timelineDescription, setTimelineDescription] = useState('')
-  const [timelineEmoji, setTimelineEmoji] = useState('')
-  const [startDate, setStartDate] = useState('')
-  const [error, setError] = useState('')
 
   function openModal() {
-    setStartDate(dayjs().format('YYYY-MM-DD'))
     setIsModalVisible(true)
   }
 
   function closeModal() {
-    setTimelineDescription('')
-    setTimelineEmoji('')
-    setStartDate('')
-    setError('')
     setIsModalVisible(false)
   }
 
-  function changeTimelineDescription(event: React.ChangeEvent<HTMLInputElement>) {
-    if (error) setError('')
-    setTimelineDescription(event.target.value)
-  }
-
-  function changeTimelineEmoji(event: React.ChangeEvent<HTMLInputElement>) {
-    if (error) setError('')
-    setTimelineEmoji(event.target.value)
-  }
-
-  function changeStartDate(event: React.ChangeEvent<HTMLInputElement>) {
-    if (error) setError('')
-    setStartDate(event.target.value)
-  }
-
-  function addTimeline(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    if (!timelineDescription && !timelineEmoji) {
-      setError('Emoji or name is required')
-      return
-    }
-
-    if (!dayjs(startDate).isValid()) {
-      setError('Date is invalid')
-      return
-    }
-
-    if (dayjs(startDate).isAfter(dayjs(), 'day')) {
-      setError("Date can't be future")
-      return
-    }
-
+  function addTimeline({ emoji, description, startDate }: { emoji: string; description: string; startDate: string }) {
     const newTimeline: TimelineInterface = {
       id: uuid(),
-      description: timelineDescription,
-      emoji: timelineEmoji,
+      emoji,
+      description,
       dates: {
         [startDate]: { value: 0 },
       },
@@ -77,25 +38,22 @@ export default function AddTimeline({ onAddNewTimeline }: Props) {
 
   return (
     <>
-      <button style={{ alignSelf: 'center' }} onClick={openModal} data-testid="add-timeline-button">
+      <button style={{ alignSelf: 'center' }} onClick={openModal}>
         +
       </button>
 
       {isModalVisible && (
-        <Modal
-          // @ts-ignore
-          as="form"
-          onSubmit={addTimeline}
-          columnTop
-          itemsCenter
-          onClose={closeModal}
-          data-testid="add-timeline-form"
-        >
-          <input placeholder="Emoji" value={timelineEmoji} onChange={changeTimelineEmoji} />
-          <input placeholder="Description" value={timelineDescription} onChange={changeTimelineDescription} />
-          <input placeholder="Start date" value={startDate} onChange={changeStartDate} />
-          {error && <span>{error}</span>}
-          <button>OK</button>
+        <Modal columnTop itemsCenter onClose={closeModal}>
+          <span>Add new timeline</span>
+
+          <TimelineForm
+            emoji=""
+            description=""
+            startDate={dayjs().format('YYYY-MM-DD')}
+            onSubmit={addTimeline}
+            buttonLabel="Add"
+          />
+
           <button type="button" onClick={closeModal}>
             Cancel
           </button>

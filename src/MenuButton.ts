@@ -6,11 +6,11 @@ type Props = {
 }
 
 const defaultProps: Props = {
-  size: 30,
+  size: 24,
   color: 'currentColor ',
 }
 
-const MenuButton = styled.button<Props>`
+const MenuButton = styled.button.attrs(() => ({ 'data-testid': 'timeline-menu-button' }))<Props>`
   ${({ size, color }) => `
     width: ${size}px;
     height: ${size}px;

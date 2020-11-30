@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import dayjs from 'dayjs'
+import 'styled-components/macro'
 
 import type { TimelineInterface } from './database'
 
 import Div from './Div'
 import Day from './Day'
-import Modal from './Modal'
+import MenuButton from './MenuButton'
+import EditTimelineModal from './EditTimelineModal'
 
 type Props = TimelineInterface & {
   onDayClick: Function
@@ -13,7 +15,7 @@ type Props = TimelineInterface & {
 }
 
 export default function Timeline({ id, description, emoji, dates, onDayClick, onDeleteTimeline }: Props) {
-  const [isDeleteTimelineModalVisible, setIsDeleteTimelineModalVisible] = useState(false)
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false)
 
   const firstDateString = Object.keys(dates)[0]
   const firstDate = dayjs(firstDateString || new Date())
@@ -22,13 +24,10 @@ export default function Timeline({ id, description, emoji, dates, onDayClick, on
   return (
     <>
       <Div columnTop>
-        <Div listLeft justifyBetween>
-          <Div listLeft>
-            {emoji && <span>{emoji}</span>}
-            {description && <span>{description}</span>}
-          </Div>
-
-          <button onClick={() => setIsDeleteTimelineModalVisible(true)}>Delete</button>
+        <Div listLeft itemsCenter>
+          {emoji && <span>{emoji}</span>}
+          {description && <span>{description}</span>}
+          <MenuButton onClick={() => setIsEditModalVisible(true)} css="&& { margin-left: auto; }" />
         </Div>
 
         <Div listLeft={2} overflow="auto">
@@ -46,17 +45,12 @@ export default function Timeline({ id, description, emoji, dates, onDayClick, on
         </Div>
       </Div>
 
-      {isDeleteTimelineModalVisible && (
-        <Modal
-          columnTop
-          itemsCenter
-          onClose={() => setIsDeleteTimelineModalVisible(false)}
-          data-testid="delete-timeline-modal"
-        >
-          <span>Are you sure?</span>
-          <button onClick={() => onDeleteTimeline(id)}>Yes</button>
-          <button onClick={() => setIsDeleteTimelineModalVisible(false)}>No</button>
-        </Modal>
+      {isEditModalVisible && (
+        <EditTimelineModal
+          onEdit={() => {}}
+          onDelete={() => onDeleteTimeline(id)}
+          onClose={() => setIsEditModalVisible(false)}
+        />
       )}
     </>
   )

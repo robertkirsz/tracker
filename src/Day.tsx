@@ -31,7 +31,7 @@ export default function Day({ index, id, emoji, firstDate, dates, onClick }: Pro
   }
 
   return (
-    <Wrapper isToday={isToday} isWeekend={isWeekend} onClick={handleClick}>
+    <Wrapper isToday={isToday} isWeekend={isWeekend} onClick={handleClick} data-testid="timeline-day">
       <span style={{ fontSize: 6 }}>{currentDate.format('DD-MM-YYYY')}</span>
       {isActive && <Emoji>{emoji}</Emoji>}
     </Wrapper>
