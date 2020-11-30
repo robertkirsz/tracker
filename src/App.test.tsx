@@ -13,12 +13,6 @@ const getDatabase = (): DatabaseInterface => ({
       emoji: '🍺',
       dates: {},
     },
-    {
-      id: '1',
-      description: 'Ate burger',
-      emoji: '🍔',
-      dates: {},
-    },
   ],
 })
 
@@ -27,16 +21,7 @@ afterEach(() => {
 })
 
 describe('<App />', () => {
-  it('Renders timelines', () => {
-    const { getByText } = render(<App getDatabase={getDatabase} />)
-
-    expect(getByText('🍺')).toBeInTheDocument()
-    expect(getByText('Drank beer')).toBeInTheDocument()
-    expect(getByText('🍔')).toBeInTheDocument()
-    expect(getByText('Ate burger')).toBeInTheDocument()
-  })
-
-  it('Adds new timeline', () => {
+  test('Timeline can be added', () => {
     const { getByTestId, getByText, getByPlaceholderText } = render(<App />)
 
     fireEvent.click(getByTestId('add-timeline-button'))
@@ -53,8 +38,10 @@ describe('<App />', () => {
     // TODO: check timeline length
   })
 
-  it('Existing timeline can be deleted', () => {
-    const { getByText, getAllByText } = render(<App getDatabase={getDatabase} />)
+  test('Timeline can be edited', () => {})
+
+  test('Timeline can be deleted', () => {
+    const { getByText } = render(<App getDatabase={getDatabase} />)
 
     const timelineEmoji = getByText('🍺')
     const timelineDescription = getByText('Drank beer')
@@ -62,7 +49,7 @@ describe('<App />', () => {
     expect(timelineEmoji).toBeInTheDocument()
     expect(timelineDescription).toBeInTheDocument()
 
-    fireEvent.click(getAllByText('Delete')[0])
+    fireEvent.click(getByText('Delete'))
     fireEvent.click(getByText('Yes'))
 
     expect(timelineEmoji).not.toBeInTheDocument()
