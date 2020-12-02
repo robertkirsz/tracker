@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
 
-import type { TimelineInterface } from './database'
+import { TimelineInterface } from 'database'
 
-import Modal from './Modal'
-import TimelineForm from './TimelineForm'
+import Modal from 'Modal'
+import TimelineForm from 'TimelineForm'
 
 type Props = {
   onAddNewTimeline: Function

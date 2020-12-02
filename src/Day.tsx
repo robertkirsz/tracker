@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
 
-import { sc } from './utils'
+import { sc } from 'utils'
 
-import Emoji from './Emoji'
+import Emoji from 'Emoji'
 
 type Props = {
   index: number

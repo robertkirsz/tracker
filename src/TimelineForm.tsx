@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import dayjs from 'dayjs'
 
-import Div, { DivProps } from './Div'
+import Div, { DivProps } from 'Div'
 
 type Props = {
   emoji?: string

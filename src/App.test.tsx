@@ -2,9 +2,9 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import MockDate from 'mockdate'
 
-import type { DatabaseInterface } from './database'
+import { DatabaseInterface } from 'database'
 
-import App from './App'
+import App from 'App'
 
 const getDatabase = (): DatabaseInterface => ({
   timelines: [

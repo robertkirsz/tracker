@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
+import dayjs from 'dayjs'
 
-import { getDatabaseFromLocalStorage, saveDatabaseToLocalStorage } from './database'
-import type { DatabaseInterface, TimelineInterface } from './database'
+import { getDatabaseFromLocalStorage, saveDatabaseToLocalStorage, DatabaseInterface, TimelineInterface } from 'database'
 
-import Div from './Div'
-import Version from './Version'
-import Timeline from './Timeline'
-import AddTimeline from './AddTimeline'
-import DatabasePreview from './DatabasePreview'
-import type dayjs from 'dayjs'
+import Div from 'Div'
+import Version from 'Version'
+import Timeline from 'Timeline'
+import AddTimeline from 'AddTimeline'
+import DatabasePreview from 'DatabasePreview'
 
 export default function App({ getDatabase = getDatabaseFromLocalStorage }) {
   const [database, setDatabase] = useState<DatabaseInterface>(getDatabase)

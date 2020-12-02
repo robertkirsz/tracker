@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Div, { DivProps } from './Div'
+import Div, { DivProps } from 'Div'
 
 type Props = {
   onClose: Function

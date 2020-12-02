@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import type { DatabaseInterface } from './database'
+import { DatabaseInterface } from 'database'
 
-import Modal from './Modal'
+import Modal from 'Modal'
 
 type Props = {
   database: DatabaseInterface

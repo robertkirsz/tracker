@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import dayjs from 'dayjs'
 import 'styled-components/macro'
 
-import type { TimelineInterface } from './database'
+import { TimelineInterface } from 'database'
 
-import Div from './Div'
-import Day from './Day'
-import MenuButton from './MenuButton'
-import EditTimelineModal from './EditTimelineModal'
+import Div from 'Div'
+import Day from 'Day'
+import MenuButton from 'MenuButton'
+import EditTimelineModal from 'EditTimelineModal'
 
 type Props = TimelineInterface & {
   onDayClick: Function
