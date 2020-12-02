@@ -58,4 +58,8 @@ const Wrapper = styled.div<WrapperProps>`
 
   ${sc('isToday')`border-width: 3px;`}
   ${sc('isWeekend')`background: rgba(255, 255, 255, 0.1);`}
+
+  &:first-child {
+    margin-left: auto;
+  }
 `

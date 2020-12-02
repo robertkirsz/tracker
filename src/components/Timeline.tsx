@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import dayjs from 'dayjs'
 import 'styled-components/macro'
 
@@ -15,11 +15,16 @@ type Props = TimelineInterface & {
 }
 
 export default function Timeline({ id, description, emoji, dates, onDayClick, onDeleteTimeline }: Props) {
+  const ref = useRef<HTMLDivElement>(null!)
   const [isEditModalVisible, setIsEditModalVisible] = useState(false)
 
   const firstDateString = Object.keys(dates)[0]
   const firstDate = dayjs(firstDateString || new Date())
   const numberOfDays = dayjs().diff(firstDate, 'day') + 1
+
+  useEffect(() => {
+    ref.current.scrollTo(ref.current.scrollWidth, 0)
+  }, [])
 
   return (
     <>
@@ -30,7 +35,7 @@ export default function Timeline({ id, description, emoji, dates, onDayClick, on
           <MenuButton onClick={() => setIsEditModalVisible(true)} css="&& { margin-left: auto; }" />
         </Div>
 
-        <Div listLeft={2} overflow="auto">
+        <Div ref={ref} listLeft={2} overflow="auto">
           {[...Array(numberOfDays)].map((_, index) => (
             <Day
               key={index}
