@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 
 import { sc } from 'utils'
 
-import Emoji from 'Emoji'
+import Emoji from 'components/Emoji'
 
 type Props = {
   index: number

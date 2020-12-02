@@ -3,11 +3,11 @@ import dayjs from 'dayjs'
 
 import { getDatabaseFromLocalStorage, saveDatabaseToLocalStorage, DatabaseInterface, TimelineInterface } from 'database'
 
-import Div from 'Div'
-import Version from 'Version'
-import Timeline from 'Timeline'
-import AddTimeline from 'AddTimeline'
-import DatabasePreview from 'DatabasePreview'
+import Div from 'components/Div'
+import Version from 'components/Version'
+import Timeline from 'components/Timeline'
+import AddTimeline from 'components/AddTimeline'
+import DatabasePreview from 'components/DatabasePreview'
 
 export default function App({ getDatabase = getDatabaseFromLocalStorage }) {
   const [database, setDatabase] = useState<DatabaseInterface>(getDatabase)

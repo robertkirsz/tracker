@@ -4,8 +4,8 @@ import { v4 as uuid } from 'uuid'
 
 import { TimelineInterface } from 'database'
 
-import Modal from 'Modal'
-import TimelineForm from 'TimelineForm'
+import Modal from 'components/Modal'
+import TimelineForm from 'components/TimelineForm'
 
 type Props = {
   onAddNewTimeline: Function

@@ -4,10 +4,10 @@ import 'styled-components/macro'
 
 import { TimelineInterface } from 'database'
 
-import Div from 'Div'
-import Day from 'Day'
-import MenuButton from 'MenuButton'
-import EditTimelineModal from 'EditTimelineModal'
+import Div from 'components/Div'
+import Day from 'components/Day'
+import MenuButton from 'components/MenuButton'
+import EditTimelineModal from 'components/EditTimelineModal'
 
 type Props = TimelineInterface & {
   onDayClick: Function

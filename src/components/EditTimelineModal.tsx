@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Div from 'Div'
-import Modal from 'Modal'
+import Div from 'components/Div'
+import Modal from 'components/Modal'
 
 type Props = {
   onEdit: Function

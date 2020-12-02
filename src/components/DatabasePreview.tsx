@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { DatabaseInterface } from 'database'
 
-import Modal from 'Modal'
+import Modal from 'components/Modal'
 
 type Props = {
   database: DatabaseInterface

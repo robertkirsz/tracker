@@ -4,7 +4,7 @@ import MockDate from 'mockdate'
 
 import { DatabaseInterface } from 'database'
 
-import App from 'App'
+import App from 'components/App'
 
 const getDatabase = (): DatabaseInterface => ({
   timelines: [
