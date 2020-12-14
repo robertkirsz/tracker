@@ -50,20 +50,18 @@ export default function AddTimeline({ onAddNewTimeline }: Props) {
         +
       </button>
 
-      {isModalVisible && (
-        <Modal className="flex-col space-y-4 items-center" onClose={closeModal}>
-          <span>Add new timeline</span>
+      <Modal show={isModalVisible} className="space-y-4 items-center" onClose={closeModal}>
+        <span>Add new timeline</span>
 
-          <TimelineForm
-            emoji=""
-            description=""
-            startDate={dayjs().format('YYYY-MM-DD')}
-            onSubmit={addTimeline}
-            onCancel={closeModal}
-            buttonLabel="Add"
-          />
-        </Modal>
-      )}
+        <TimelineForm
+          emoji=""
+          description=""
+          startDate={dayjs().format('YYYY-MM-DD')}
+          onSubmit={addTimeline}
+          onCancel={closeModal}
+          buttonLabel="Add"
+        />
+      </Modal>
     </>
   )
 }

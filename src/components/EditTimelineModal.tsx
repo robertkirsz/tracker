@@ -4,16 +4,18 @@ import Div from 'components/Div'
 import Modal from 'components/Modal'
 
 type Props = {
+  show: boolean
   onEdit: Function
   onDelete: Function
   onClose: Function
 }
 
-export default function EditTimelineModal({ onEdit, onDelete, onClose }: Props) {
+export default function EditTimelineModal({ show, onEdit, onDelete, onClose }: Props) {
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false)
 
   return (
     <Modal
+      show={show}
       className="flex-col space-y-4 items-center"
       onClose={onClose}
       data-testid="delete-timeline-modal"

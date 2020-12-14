@@ -21,14 +21,12 @@ export default function DatabasePreview({ database }: Props) {
         Show data
       </button>
 
-      {isModalVisible && (
-        <Modal className="flex-col overflow-auto space-y-4" onClose={toggleModal}>
-          <pre className="flex-1 text-xs overflow-auto">{JSON.stringify(database, null, 2)}</pre>
-          <button className="btn self-center" onClick={toggleModal}>
-            Close
-          </button>
-        </Modal>
-      )}
+      <Modal show={isModalVisible} className="overflow-auto space-y-4" onClose={toggleModal}>
+        <pre className="flex-1 text-xs overflow-auto">{JSON.stringify(database, null, 2)}</pre>
+        <button className="btn self-center" onClick={toggleModal}>
+          Close
+        </button>
+      </Modal>
     </>
   )
 }

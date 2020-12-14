@@ -55,13 +55,12 @@ export default function Timeline({
         </div>
       </div>
 
-      {isEditModalVisible && (
-        <EditTimelineModal
-          onEdit={() => {}}
-          onDelete={() => onDeleteTimeline(id)}
-          onClose={() => setIsEditModalVisible(false)}
-        />
-      )}
+      <EditTimelineModal
+        show={isEditModalVisible}
+        onEdit={() => {}}
+        onDelete={() => onDeleteTimeline(id)}
+        onClose={() => setIsEditModalVisible(false)}
+      />
     </>
   )
 }
