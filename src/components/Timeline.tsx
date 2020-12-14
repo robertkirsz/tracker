@@ -1,10 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import dayjs from 'dayjs'
-import 'styled-components/macro'
 
 import { TimelineInterface } from 'database'
 
-import Div from 'components/Div'
 import Day from 'components/Day'
 import MenuButton from 'components/MenuButton'
 import EditTimelineModal from 'components/EditTimelineModal'
@@ -14,7 +12,14 @@ type Props = TimelineInterface & {
   onDeleteTimeline: Function
 }
 
-export default function Timeline({ id, description, emoji, dates, onDayClick, onDeleteTimeline }: Props) {
+export default function Timeline({
+  id,
+  description,
+  emoji,
+  dates,
+  onDayClick,
+  onDeleteTimeline,
+}: Props) {
   const ref = useRef<HTMLDivElement>(null!)
   const [isEditModalVisible, setIsEditModalVisible] = useState(false)
 
@@ -28,14 +33,14 @@ export default function Timeline({ id, description, emoji, dates, onDayClick, on
 
   return (
     <>
-      <Div columnTop>
-        <Div listLeft itemsCenter>
+      <div className="flex flex-col space-y-4">
+        <div className="flex items-center">
           {emoji && <span>{emoji}</span>}
-          {description && <span>{description}</span>}
-          <MenuButton onClick={() => setIsEditModalVisible(true)} css="&& { margin-left: auto; }" />
-        </Div>
+          {description && <span className="ml-4">{description}</span>}
+          <MenuButton onClick={() => setIsEditModalVisible(true)} className="ml-auto" />
+        </div>
 
-        <Div ref={ref} listLeft={2} overflow="auto">
+        <div ref={ref} className="flex -mx-4 overflow-auto">
           {[...Array(numberOfDays)].map((_, index) => (
             <Day
               key={index}
@@ -47,8 +52,8 @@ export default function Timeline({ id, description, emoji, dates, onDayClick, on
               onClick={onDayClick}
             />
           ))}
-        </Div>
-      </Div>
+        </div>
+      </div>
 
       {isEditModalVisible && (
         <EditTimelineModal

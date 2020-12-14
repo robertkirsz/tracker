@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import dayjs from 'dayjs'
-
-import Div, { DivProps } from 'components/Div'
 
 type Props = {
   emoji?: string
   description?: string
   startDate?: string
   buttonLabel?: string
-  onSubmit: Function
+  onSubmit: (cata: { emoji: string; description: string; startDate: string }) => void
+  onCancel: (event: React.MouseEvent) => void
 }
 
 export default function TimelineForm({
@@ -17,8 +16,8 @@ export default function TimelineForm({
   startDate = '',
   buttonLabel = 'OK',
   onSubmit,
-  ...props
-}: Props & DivProps) {
+  onCancel,
+}: Props) {
   const [_description, setDescription] = useState(description)
 
   function changeDescription(event: React.ChangeEvent<HTMLInputElement>) {
@@ -64,20 +63,38 @@ export default function TimelineForm({
   }
 
   return (
-    <Div as="form" columnTop itemsCenter onSubmit={handleSubmit} {...props}>
-      {typeof _emoji !== 'undefined' && <input placeholder="Emoji" value={_emoji} onChange={changeEmoji} />}
+    <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+      {typeof _emoji !== 'undefined' && (
+        <input className="input" placeholder="Emoji" value={_emoji} onChange={changeEmoji} />
+      )}
 
       {typeof _description !== 'undefined' && (
-        <input placeholder="Description" value={_description} onChange={changeDescription} />
+        <input
+          className="input"
+          placeholder="Description"
+          value={_description}
+          onChange={changeDescription}
+        />
       )}
 
       {typeof _startDate !== 'undefined' && (
-        <input placeholder="Start date" value={_startDate} onChange={changeStartDate} />
+        <input
+          className="input"
+          placeholder="Start date"
+          value={_startDate}
+          onChange={changeStartDate}
+        />
       )}
 
-      {error && <span>{error}</span>}
+      <div className="flex justify-between">
+        <button className="btn btn-primary">{buttonLabel}</button>
 
-      <button>{buttonLabel}</button>
-    </Div>
+        <button className="btn" type="button" onClick={onCancel}>
+          Cancel
+        </button>
+      </div>
+
+      {error && <span>{error}</span>}
+    </form>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
 
@@ -22,7 +22,15 @@ export default function AddTimeline({ onAddNewTimeline }: Props) {
     setIsModalVisible(false)
   }
 
-  function addTimeline({ emoji, description, startDate }: { emoji: string; description: string; startDate: string }) {
+  function addTimeline({
+    emoji,
+    description,
+    startDate,
+  }: {
+    emoji: string
+    description: string
+    startDate: string
+  }) {
     const newTimeline: TimelineInterface = {
       id: uuid(),
       emoji,
@@ -38,12 +46,12 @@ export default function AddTimeline({ onAddNewTimeline }: Props) {
 
   return (
     <>
-      <button style={{ alignSelf: 'center' }} onClick={openModal}>
+      <button className="btn self-center" onClick={openModal}>
         +
       </button>
 
       {isModalVisible && (
-        <Modal columnTop itemsCenter onClose={closeModal}>
+        <Modal className="flex-col space-y-4 items-center" onClose={closeModal}>
           <span>Add new timeline</span>
 
           <TimelineForm
@@ -51,12 +59,9 @@ export default function AddTimeline({ onAddNewTimeline }: Props) {
             description=""
             startDate={dayjs().format('YYYY-MM-DD')}
             onSubmit={addTimeline}
+            onCancel={closeModal}
             buttonLabel="Add"
           />
-
-          <button type="button" onClick={closeModal}>
-            Cancel
-          </button>
         </Modal>
       )}
     </>

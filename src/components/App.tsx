@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import dayjs from 'dayjs'
 
-import { getDatabaseFromLocalStorage, saveDatabaseToLocalStorage, DatabaseInterface, TimelineInterface } from 'database'
+import {
+  getDatabaseFromLocalStorage,
+  saveDatabaseToLocalStorage,
+  DatabaseInterface,
+  TimelineInterface,
+} from 'database'
 
-import Div from 'components/Div'
 import Version from 'components/Version'
 import Timeline from 'components/Timeline'
 import AddTimeline from 'components/AddTimeline'
@@ -66,7 +70,7 @@ export default function App({ getDatabase = getDatabaseFromLocalStorage }) {
 
   return (
     <>
-      <Div flex={1} columnTop overflow="auto">
+      <div className="content-wrapper flex-1 flex-col space-y-2 overflow-y-auto">
         {database.timelines.map(timeline => (
           <Timeline
             key={timeline.id}
@@ -78,14 +82,13 @@ export default function App({ getDatabase = getDatabaseFromLocalStorage }) {
             onDeleteTimeline={deleteTimeline}
           />
         ))}
-      </Div>
+      </div>
 
-      <AddTimeline onAddNewTimeline={addNewTimeline} />
-
-      <Div as="footer" itemsEnd justifyBetween flexNone>
+      <footer className="content-wrapper flex-none items-center justify-between">
         <Version />
+        <AddTimeline onAddNewTimeline={addNewTimeline} />
         <DatabasePreview database={database} />
-      </Div>
+      </footer>
     </>
   )
 }

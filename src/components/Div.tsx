@@ -111,7 +111,9 @@ const stuff = {
   listRight: createList((value: string) => `> *:not(:first-child) { margin-right: ${value}; }`),
   listTop: createList((value: string) => `> *:not(:first-child) { margin-top: ${value}; }`),
   listBottom: createList((value: string) => `> *:not(:first-child) { margin-bottom: ${value}; }`),
-  columnTop: createList((value: string) => `flex-direction: column; > *:not(:first-child) { margin-top: ${value}; }`),
+  columnTop: createList(
+    (value: string) => `flex-direction: column; > *:not(:first-child) { margin-top: ${value}; }`
+  ),
   columnBottom: createList(
     (value: string) => `flex-direction: column; > *:not(:first-child) { margin-bottom: ${value}; }`
   ),
@@ -119,7 +121,8 @@ const stuff = {
   overflow: (value: string) => `overflow: ${value};` /* Tested */,
   // Helpers
   layer: layerStyles,
-  square: (value: DuoType) => value !== '' && `width: ${withUnit(value)}; height: ${withUnit(value)};`,
+  square: (value: DuoType) =>
+    value !== '' && `width: ${withUnit(value)}; height: ${withUnit(value)};`,
   fullHeight: 'min-height: 100vh;',
   hide: 'display: none;',
   circle: 'border-radius: 50%;',
@@ -217,7 +220,9 @@ function doMediaQueriesStuff(props = {}) {
         const stuffProperty = stuff[property]
         if (value === false) return all
         if (!stuffProperty) return `${all}${camelToKebab(property)}:${value};`
-        return `${all}${typeof stuffProperty === 'function' ? stuffProperty(value, props) : stuffProperty}`
+        return `${all}${
+          typeof stuffProperty === 'function' ? stuffProperty(value, props) : stuffProperty
+        }`
       }, ''),
     }
   }, {})

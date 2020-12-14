@@ -13,7 +13,11 @@ export default function EditTimelineModal({ onEdit, onDelete, onClose }: Props) 
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false)
 
   return (
-    <Modal columnTop itemsCenter onClose={onClose} data-testid="delete-timeline-modal">
+    <Modal
+      className="flex-col space-y-4 items-center"
+      onClose={onClose}
+      data-testid="delete-timeline-modal"
+    >
       <button onClick={() => setIsDeleteConfirmationVisible(true)}>Delete</button>
 
       {isDeleteConfirmationVisible && (
