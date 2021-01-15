@@ -17,6 +17,15 @@ type Props = {
   onClick: Function
 }
 
+function isTouchDevice() {
+  try {
+    document.createEvent('TouchEvent')
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
 export default function Day({ index, id, emoji, firstDate, dates, onClick }: Props) {
   const today = dayjs()
   const currentDate = dayjs(firstDate).add(index, 'day')
@@ -24,14 +33,33 @@ export default function Day({ index, id, emoji, firstDate, dates, onClick }: Pro
   const isToday = today.isSame(currentDate, 'day')
   const isWeekend = [0, 6].includes(currentDate.day())
 
+  function handleClick() {
+    if (isTouchDevice()) return
+
+    onClick(id, currentDate, (value || 0) + 1)
+  }
+
+  function handleRightClick(event: any) {
+    event.preventDefault()
+
+    if (isTouchDevice()) return
+
+    onClick(id, currentDate, value ? value - 1 : 0)
+  }
+
   const touchStart = useRef(0)
   const touchEnd = useRef(0)
 
-  function handlePointerDown() {
+  function handleTouchStart() {
+    if (!isTouchDevice()) return
+
     touchStart.current = Date.now()
   }
 
-  function handlePointerUp() {
+  function handleTouchEnd() {
+    if (!isTouchDevice()) return
+    console.log('handleTouchEnd')
+
     touchEnd.current = Date.now()
 
     const elapsed = touchEnd.current - touchStart.current
@@ -51,10 +79,10 @@ export default function Day({ index, id, emoji, firstDate, dates, onClick }: Pro
             'bg-white bg-opacity-10': isWeekend,
           }
         )}
-        onTouchStart={handlePointerDown}
-        onTouchEnd={handlePointerUp}
-        onMouseDown={handlePointerDown}
-        onMouseUp={handlePointerUp}
+        onClick={handleClick}
+        onContextMenu={handleRightClick}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
         data-testid="timeline-day"
       >
         <span style={{ fontSize: 6 }}>{currentDate.format('DD-MM-YYYY')}</span>
