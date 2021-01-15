@@ -17,6 +17,8 @@ export default function App({ getDatabase = getDatabaseFromLocalStorage }) {
   const [database, setDatabase] = useState<DatabaseInterface>(getDatabase)
 
   function handleDayClick(id: string, date: dayjs.Dayjs, newDateState: number) {
+    window.navigator.vibrate?.(100)
+
     setDatabase(state => {
       const newState = {
         ...state,
