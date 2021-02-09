@@ -50,7 +50,12 @@ export default function AddTimeline({ onAddNewTimeline }: Props) {
         +
       </button>
 
-      <Modal show={isModalVisible} className="space-y-4 items-center" onClose={closeModal}>
+      <Modal
+        show={isModalVisible}
+        className="space-y-4 items-center"
+        onClose={closeModal}
+        data-e2e="add-timeline-modal"
+      >
         <span>Add new timeline</span>
 
         <TimelineForm

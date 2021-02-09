@@ -10,7 +10,7 @@ type Props = {
   children: React.ReactNode
 }
 
-export default function Modal({ show, className = '', onClose, children }: Props) {
+export default function Modal({ show, className = '', onClose, children, ...props }: Props) {
   function handleBackgroundClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     event.target === event.currentTarget && onClose()
   }
@@ -26,6 +26,7 @@ export default function Modal({ show, className = '', onClose, children }: Props
             'flex flex-col p-6 mx-auto bg-gray-100 rounded-xl shadow-md max-w-full max-h-full overflow-auto',
             className
           )}
+          {...props}
         >
           {children}
         </div>

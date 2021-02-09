@@ -6,6 +6,7 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "e2e": "cypress open",
     "serve": "serve -s build",
     "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
   },
@@ -24,6 +25,7 @@
     "@types/uuid": "8.3.0",
     "autoprefixer": "^9",
     "classnames": "2.2.6",
+    "cypress": "6.4.0",
     "dayjs": "1.9.6",
     "mockdate": "3.0.2",
     "postcss": "^7",
