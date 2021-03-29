@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import styled from 'styled-components'
 
 import type { ChangeEvent } from 'react'
 import type { DatabaseInterface } from 'database'
 
 import { downloadDatabase } from 'database'
+import Div from 'components/Div'
 import Modal from 'components/Modal'
 
 type Props = {
@@ -15,8 +17,10 @@ export default function DatabasePreview({ database, onDatabaseUpload }: Props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   function toggleModal() {
-    setIsModalVisible(state => !state)
+    if (!isUploading) setIsModalVisible(state => !state)
   }
+
+  const [isUploading, setIsUploading] = useState(false)
 
   function handleUpload(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
@@ -30,9 +34,11 @@ export default function DatabasePreview({ database, onDatabaseUpload }: Props) {
 
       if (typeof result === 'string') {
         onDatabaseUpload(JSON.parse(result))
+        setIsUploading(false)
       }
     }
 
+    setIsUploading(true)
     reader.readAsText(file)
   }
 
@@ -48,16 +54,22 @@ export default function DatabasePreview({ database, onDatabaseUpload }: Props) {
         onClose={toggleModal}
         data-e2e="database-preview-modal"
       >
-        <button className="btn self-center" onClick={downloadDatabase}>
-          Download
-        </button>
+        <Div listLeft selfCenter flexNone>
+          <button className="btn" disabled={isUploading} onClick={downloadDatabase}>
+            Download
+          </button>
 
-        <input type="file" onChange={handleUpload} />
+          <UploadButton className="btn" htmlFor="files" disabled={isUploading}>
+            {isUploading ? 'Uploading...' : 'Upload'}
+            <input id="files" type="file" onChange={handleUpload} disabled={isUploading} />
+          </UploadButton>
+        </Div>
 
         <pre className="flex-1 text-xs overflow-auto">{JSON.stringify(database, null, 2)}</pre>
 
         <button
           className="btn self-center"
+          disabled={isUploading}
           onClick={toggleModal}
           data-e2e="database-preview-modal close button"
         >
@@ -67,3 +79,13 @@ export default function DatabasePreview({ database, onDatabaseUpload }: Props) {
     </>
   )
 }
+
+const UploadButton = styled.label<{ disabled: boolean }>`
+  cursor: pointer;
+
+  input {
+    display: none;
+  }
+
+  ${({ disabled }) => disabled && `opacity: 0.5; cursor: not-allowed;`}
+`

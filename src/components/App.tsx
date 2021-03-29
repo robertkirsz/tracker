@@ -16,6 +16,11 @@ import DatabasePreview from 'components/DatabasePreview'
 export default function App({ getDatabase = getDatabaseFromLocalStorage }) {
   const [database, setDatabase] = useState<DatabaseInterface>(getDatabase)
 
+  function handleDatabaseUpload(database: DatabaseInterface) {
+    setDatabase(database)
+    saveDatabaseToLocalStorage(database)
+  }
+
   function handleDayClick(id: string, date: dayjs.Dayjs, newDateState: number) {
     window.navigator.vibrate?.(50)
 
@@ -89,7 +94,7 @@ export default function App({ getDatabase = getDatabaseFromLocalStorage }) {
       <footer className="content-wrapper flex-none items-center justify-between">
         <Version />
         <AddTimeline onAddNewTimeline={addNewTimeline} />
-        <DatabasePreview database={database} onDatabaseUpload={setDatabase} />
+        <DatabasePreview database={database} onDatabaseUpload={handleDatabaseUpload} />
       </footer>
     </>
   )
