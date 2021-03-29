@@ -15,7 +15,7 @@ describe('Flow', () => {
     cy.get('[data-e2e="database-preview-modal"]').should('not.exist')
     cy.get('#app-root > footer > button:nth-child(3)').click()
     cy.get('[data-e2e="database-preview-modal"]').should('be.visible')
-    cy.get('[data-e2e="database-preview-modal"] > button').click()
+    cy.get('[data-e2e="database-preview-modal close button"]').click()
     cy.get('[data-e2e="database-preview-modal"]').should('not.exist')
   })
 

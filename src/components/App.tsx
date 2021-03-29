@@ -89,7 +89,7 @@ export default function App({ getDatabase = getDatabaseFromLocalStorage }) {
       <footer className="content-wrapper flex-none items-center justify-between">
         <Version />
         <AddTimeline onAddNewTimeline={addNewTimeline} />
-        <DatabasePreview database={database} />
+        <DatabasePreview database={database} onDatabaseUpload={setDatabase} />
       </footer>
     </>
   )

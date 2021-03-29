@@ -3,6 +3,14 @@ import cn from 'classnames'
 
 import Fade from 'components/Fade'
 
+let root = document.getElementById('modal-root')
+
+if (root === null) {
+  root = document.createElement('div')
+  root.id = 'modal-root'
+  document.body.appendChild(root)
+}
+
 type Props = {
   show: boolean
   className?: string
@@ -32,6 +40,6 @@ export default function Modal({ show, className = '', onClose, children, ...prop
         </div>
       </div>
     </Fade>,
-    document.getElementById('modal-root')!
+    root!
   )
 }

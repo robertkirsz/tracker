@@ -28,7 +28,8 @@ export default function Timeline({
   const numberOfDays = dayjs().diff(firstDate, 'day') + 1
 
   useEffect(() => {
-    ref.current.scrollTo(ref.current.scrollWidth, 0)
+    // Jest needs ?. here
+    ref.current.scrollTo?.(ref.current.scrollWidth, 0)
   }, [])
 
   return (

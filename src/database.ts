@@ -17,8 +17,18 @@ const emptyDatabase = {
   timelines: [],
 }
 
-export const getDatabaseFromLocalStorage = (): DatabaseInterface =>
-  JSON.parse(localStorage.getItem('database') || JSON.stringify(emptyDatabase))
+const getDatabase = () => localStorage.getItem('database') || JSON.stringify(emptyDatabase)
+
+export const getDatabaseFromLocalStorage = (): DatabaseInterface => JSON.parse(getDatabase())
 
 export const saveDatabaseToLocalStorage = (database: DatabaseInterface) =>
   localStorage.setItem('database', JSON.stringify(database))
+
+export const downloadDatabase = () => {
+  const element = document.createElement('a')
+  const file = new Blob([getDatabase()], { type: 'application/json' })
+
+  element.href = URL.createObjectURL(file)
+  element.download = 'trackerDatabase.json'
+  element.click()
+}
