@@ -42,17 +42,19 @@ export default function Timeline({
         </div>
 
         <div ref={ref} className="flex -mx-4 overflow-auto">
-          {[...Array(numberOfDays)].map((_, index) => (
-            <Day
-              key={index}
-              index={index}
-              id={id}
-              emoji={emoji}
-              dates={dates}
-              firstDate={firstDate}
-              onClick={onDayClick}
-            />
-          ))}
+          {[...Array(numberOfDays)]
+            .map((_, index) => (
+              <Day
+                key={index}
+                index={index}
+                id={id}
+                emoji={emoji}
+                dates={dates}
+                firstDate={firstDate}
+                onClick={onDayClick}
+              />
+            ))
+            .slice(-14)}
         </div>
       </div>
 
