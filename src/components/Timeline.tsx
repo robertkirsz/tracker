@@ -26,6 +26,9 @@ export default function Timeline({
   const firstDateString = Object.keys(dates)[0]
   const firstDate = dayjs(firstDateString || new Date())
   const numberOfDays = dayjs().diff(firstDate, 'day') + 1
+  const lastDateWithValue = Object.keys(dates)
+    .reverse()
+    .find(date => dates[date].value > 0)
 
   useEffect(() => {
     // Jest needs ?. here
@@ -36,8 +39,12 @@ export default function Timeline({
     <>
       <div className="flex flex-col space-y-4">
         <div className="flex items-center">
-          {emoji && <span>{emoji}</span>}
-          {description && <span className="ml-4">{description}</span>}
+          <div className="flex items-baseline gap-3">
+            {emoji && <span>{emoji}</span>}
+            {description && <span>{description}</span>}
+            {lastDateWithValue && <small>{dayjs(lastDateWithValue).format('DD-MM-YYYY')}</small>}
+          </div>
+
           <MenuButton onClick={() => setIsEditModalVisible(true)} className="ml-auto" />
         </div>
 

@@ -58,7 +58,6 @@ export default function Day({ index, id, emoji, firstDate, dates, onClick }: Pro
 
   function handleTouchEnd() {
     if (!isTouchDevice()) return
-    console.log('handleTouchEnd')
 
     touchEnd.current = Date.now()
 
